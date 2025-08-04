@@ -1,6 +1,9 @@
 'use client';
 
 import { WorkoutDay, Exercise } from '@/types';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import EditableExerciseCard from './EditableExerciseCard';
 import AddExerciseForm from './AddExerciseForm';
 
@@ -20,19 +23,21 @@ export default function SingleDayView({
   onRemoveExercise 
 }: SingleDayViewProps) {
   return (
-    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
-      <div className="text-center mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+    <Card className="w-full">
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-xl sm:text-2xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
           {day.name}
-        </h2>
-        <div className="flex justify-center space-x-4 text-sm text-gray-600">
-          <span className="bg-gray-100 px-3 py-1 rounded-full">
+        </CardTitle>
+        <div className="flex justify-center items-center space-x-2">
+          <Badge variant="secondary">
             {day.exercises.length} ejercicios
-          </span>
+          </Badge>
         </div>
-      </div>
+      </CardHeader>
       
-      <div className="space-y-3 mb-4">
+      <Separator className="mb-6" />
+      
+      <CardContent className="space-y-4">
         {day.exercises.map((exercise, exerciseIndex) => (
           <EditableExerciseCard
             key={exerciseIndex}
@@ -41,11 +46,13 @@ export default function SingleDayView({
             onRemove={() => onRemoveExercise(dayIndex, exerciseIndex)}
           />
         ))}
-      </div>
-      
-      <AddExerciseForm 
-        onAdd={(exercise) => onAddExercise(dayIndex, exercise)}
-      />
-    </div>
+        
+        <div className="pt-2">
+          <AddExerciseForm 
+            onAdd={(exercise) => onAddExercise(dayIndex, exercise)}
+          />
+        </div>
+      </CardContent>
+    </Card>
   );
 }

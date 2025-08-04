@@ -16,6 +16,8 @@ Creación de una aplicación web para visualizar rutinas de gimnasio y agregar s
 - [2025-08-04] Enfoque por fases: Primero rutina de gimnasio, luego cardio, finalmente integración
 - [2025-08-04] Responsive design: Usar breakpoints sm/lg, optimizar spacing y typography para móvil
 - [2025-08-04] Visual hierarchy: Gradientes y efectos hover mejoran significativamente la UX
+- [2025-08-04] Estado editable: useLocalStorage + useState pattern perfecto para persistencia simple
+- [2025-08-04] UX de edición: Hover reveal de controles + inline editing es muy intuitivo
 
 ## Notes
 - Usuario quiere visualizar su rutina de gimnasio actual (4 días)

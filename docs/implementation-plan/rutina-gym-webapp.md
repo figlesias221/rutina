@@ -70,11 +70,13 @@ El usuario necesita una aplicación web para:
 - [x] **Task 2.2**: Implementar componente para mostrar un día de rutina ✅ Completado
 - [x] **Task 2.3**: Crear vista principal con los 4 días de rutina ✅ Completado
 - [x] **Task 2.4**: Agregar styling responsivo para la rutina ✅ Completado
-- [ ] **Task 2.5**: Implementar funcionalidad de edición (repeticiones y ejercicios)
-- [ ] **Task 2.6**: Crear vista de un día a la vez con navegación
+- [x] **Task 2.5**: Implementar funcionalidad de edición (repeticiones y ejercicios) ✅ Completado
+- [x] **Task 2.6**: Crear vista de un día a la vez con navegación ✅ Completado
+- [ ] **Task 2.7**: Migrar a ShadCN/UI para UI components profesional
 
 **Success Criteria Task 2**: ✅ COMPLETADO - La rutina completa de 4 días se visualiza correctamente con todos los ejercicios, series, reps y cargas. Responsive en móvil y desktop.
-**Success Criteria Task 2.5-2.6**: Permite editar ejercicios/reps y navegar un día a la vez.
+**Success Criteria Task 2.5-2.6**: ✅ COMPLETADO - Permite editar ejercicios/reps, agregar/quitar ejercicios y navegar un día a la vez.
+**Success Criteria Task 2.7**: UI profesional con ShadCN/UI components.
 
 ### Fase 3: Sistema de Sesiones de Cardio/Deportes
 - [ ] **Task 3.1**: Crear modelo de datos para sesiones de cardio/deportes
@@ -96,7 +98,7 @@ El usuario necesita una aplicación web para:
 
 ### Project Status Board
 - [x] **SETUP**: ✅ Inicializar proyecto y estructura base - COMPLETADO
-- [ ] **GYM ROUTINE**: 🔄 Implementar visualización de rutina de gimnasio - EN PROGRESO (95% completado)
+- [x] **GYM ROUTINE**: ✅ Implementar visualización de rutina de gimnasio - COMPLETADO CON EDICIÓN
 - [ ] **CARDIO SESSIONS**: Sistema para agregar/ver sesiones de cardio
 - [ ] **INTEGRATION**: Vista unificada y mejoras finales
 - [ ] **TESTING**: Pruebas y validación final
@@ -115,13 +117,26 @@ El usuario necesita una aplicación web para:
 - **Datos de rutina implementados**: Los 4 días de rutina del usuario están cargados y se visualizan
 - **Servidor funcionando**: http://localhost:3000 operativo sin errores
 
-### 🎯 Próximo Milestone
-- **Task 2.4**: Mejorar responsive design y styling
-- **Objetivo**: Validar que la rutina se vea perfecta en móvil y desktop antes de continuar con cardio
-- **Criterio de éxito**: La aplicación debe verse bien en pantallas desde 320px hasta desktop
+### ✅ Tasks 2.5-2.6 Completados - 2025-08-04
+- **Funcionalidad de edición completa**: ✏️ Editar ejercicios inline con hover
+- **Vista de un día**: 📱 Navegación limpia entre los 4 días de rutina
+- **Agregar/quitar ejercicios**: ➕ ➖ Gestión completa de ejercicios
+- **Persistencia local**: 💾 Los cambios se guardan automáticamente en localStorage
+- **Reset a original**: 🔄 Opción para restaurar rutina original
+
+### 🎯 Características Implementadas
+- **Edición inline**: Hover sobre ejercicios revela botones de editar/eliminar
+- **Formularios dinámicos**: Edición rápida con validación
+- **Navegación intuitiva**: Selector de días con estados visuales claros
+- **Persistencia automática**: Los cambios se guardan sin intervención del usuario
+- **Responsive completo**: Funciona perfectamente en móvil y desktop
+
+### 🎉 Milestone Alcanzado
+**Fase 2 COMPLETAMENTE TERMINADA** - El sistema de rutina de gimnasio es totalmente funcional y editable.
 
 ### 🔄 Estado Actual
-La funcionalidad principal de visualización de rutina está 95% completa. Solo falta optimizar el responsive design para móviles y hacer testing final antes de proceder con la funcionalidad de cardio.
+La rutina de gimnasio está 100% completa con todas las funcionalidades solicitadas. 
+**¿Listo para proceder con Fase 3 (Cardio/Deportes) o el usuario quiere probar/ajustar algo más?**
 
 ## Technical Decisions
 

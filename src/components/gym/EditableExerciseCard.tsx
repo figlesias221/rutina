@@ -2,6 +2,13 @@
 
 import { useState } from 'react';
 import { Exercise } from '@/types';
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Edit2, Trash2, Save, X } from "lucide-react";
 
 interface EditableExerciseCardProps {
   exercise: Exercise;
@@ -25,121 +32,122 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
 
   if (isEditing) {
     return (
-      <div className="bg-white rounded-lg p-3 sm:p-4 shadow-md border-2 border-blue-300">
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">
-              Ejercicio
-            </label>
-            <input
-              type="text"
+      <Card className="border-2 border-primary">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-semibold">Editando ejercicio</h4>
+            <Badge variant="outline">Modo edición</Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Ejercicio</Label>
+            <Input
+              id="name"
               value={editForm.name}
               onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-              className="w-full p-2 border border-gray-300 rounded text-sm"
               placeholder="Nombre del ejercicio"
             />
           </div>
           
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Series/Reps
-              </label>
-              <input
-                type="text"
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="setsReps">Series/Reps</Label>
+              <Input
+                id="setsReps"
                 value={editForm.setsReps}
                 onChange={(e) => setEditForm({ ...editForm, setsReps: e.target.value })}
-                className="w-full p-2 border border-gray-300 rounded text-sm"
                 placeholder="4x8"
               />
             </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Carga
-              </label>
-              <input
-                type="text"
+            <div className="space-y-2">
+              <Label htmlFor="weight">Carga</Label>
+              <Input
+                id="weight"
                 value={editForm.weight || ''}
                 onChange={(e) => setEditForm({ ...editForm, weight: e.target.value })}
-                className="w-full p-2 border border-gray-300 rounded text-sm"
                 placeholder="70kg"
               />
             </div>
           </div>
           
-          <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">
-              Comentarios
-            </label>
-            <input
-              type="text"
+          <div className="space-y-2">
+            <Label htmlFor="comments">Comentarios</Label>
+            <Textarea
+              id="comments"
               value={editForm.comments || ''}
               onChange={(e) => setEditForm({ ...editForm, comments: e.target.value })}
-              className="w-full p-2 border border-gray-300 rounded text-sm"
               placeholder="Notas adicionales"
+              rows={2}
             />
           </div>
           
           <div className="flex gap-2 pt-2">
-            <button
-              onClick={handleSave}
-              className="flex-1 bg-green-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-green-700"
-            >
-              ✓ Guardar
-            </button>
-            <button
-              onClick={handleCancel}
-              className="flex-1 bg-gray-400 text-white px-3 py-2 rounded text-sm font-medium hover:bg-gray-500"
-            >
-              ✕ Cancelar
-            </button>
+            <Button onClick={handleSave} className="flex-1" size="sm">
+              <Save className="w-4 h-4 mr-2" />
+              Guardar
+            </Button>
+            <Button onClick={handleCancel} variant="outline" className="flex-1" size="sm">
+              <X className="w-4 h-4 mr-2" />
+              Cancelar
+            </Button>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg p-3 sm:p-4 shadow-md border border-gray-200 hover:shadow-lg transition-shadow group">
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-semibold text-gray-800 text-sm sm:text-base flex-1">
-          {exercise.name}
-        </h3>
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={() => setIsEditing(true)}
-            className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <button
-            onClick={onRemove}
-            className="p-1 text-red-600 hover:bg-red-50 rounded"
-            title="Eliminar"
-          >
-            🗑️
-          </button>
+    <Card className="group hover:shadow-md transition-shadow">
+      <CardContent className="p-4">
+        <div className="flex justify-between items-start mb-3">
+          <h3 className="font-semibold text-sm sm:text-base flex-1 leading-tight">
+            {exercise.name}
+          </h3>
+          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+            <Button
+              onClick={() => setIsEditing(true)}
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+            >
+              <Edit2 className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={onRemove}
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
-      </div>
-      
-      <div className="text-xs sm:text-sm space-y-1">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600 font-medium">Series/Reps:</span>
-          <span className="font-bold text-blue-600 text-sm sm:text-base">{exercise.setsReps}</span>
-        </div>
-        {exercise.weight && (
+        
+        <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 font-medium">Carga:</span>
-            <span className="font-bold text-green-600 text-sm sm:text-base">{exercise.weight}</span>
+            <span className="text-muted-foreground text-sm">Series/Reps:</span>
+            <Badge variant="secondary" className="font-mono">
+              {exercise.setsReps}
+            </Badge>
           </div>
-        )}
-        {exercise.comments && (
-          <div className="mt-2 p-2 bg-gray-50 rounded text-xs text-gray-600 italic border-l-2 border-blue-200">
-            💡 {exercise.comments}
-          </div>
-        )}
-      </div>
-    </div>
+          {exercise.weight && (
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground text-sm">Carga:</span>
+              <Badge variant="outline" className="font-mono">
+                {exercise.weight}
+              </Badge>
+            </div>
+          )}
+          {exercise.comments && (
+            <div className="mt-3 p-3 bg-muted rounded-md">
+              <p className="text-sm text-muted-foreground italic">
+                💡 {exercise.comments}
+              </p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

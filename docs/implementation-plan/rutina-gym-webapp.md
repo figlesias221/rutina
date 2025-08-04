@@ -69,9 +69,12 @@ El usuario necesita una aplicación web para:
 - [x] **Task 2.1**: Crear modelo de datos para ejercicios de gimnasio ✅ Completado
 - [x] **Task 2.2**: Implementar componente para mostrar un día de rutina ✅ Completado
 - [x] **Task 2.3**: Crear vista principal con los 4 días de rutina ✅ Completado
-- [ ] **Task 2.4**: Agregar styling responsivo para la rutina
+- [x] **Task 2.4**: Agregar styling responsivo para la rutina ✅ Completado
+- [ ] **Task 2.5**: Implementar funcionalidad de edición (repeticiones y ejercicios)
+- [ ] **Task 2.6**: Crear vista de un día a la vez con navegación
 
-**Success Criteria Task 2**: La rutina completa de 4 días se visualiza correctamente con todos los ejercicios, series, reps y cargas. Responsive en móvil y desktop.
+**Success Criteria Task 2**: ✅ COMPLETADO - La rutina completa de 4 días se visualiza correctamente con todos los ejercicios, series, reps y cargas. Responsive en móvil y desktop.
+**Success Criteria Task 2.5-2.6**: Permite editar ejercicios/reps y navegar un día a la vez.
 
 ### Fase 3: Sistema de Sesiones de Cardio/Deportes
 - [ ] **Task 3.1**: Crear modelo de datos para sesiones de cardio/deportes

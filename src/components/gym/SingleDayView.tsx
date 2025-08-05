@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import EditableExerciseCard from './EditableExerciseCard';
 import AddExerciseForm from './AddExerciseForm';
+import { Key } from 'react';
 
 interface SingleDayViewProps {
   day: WorkoutDay;
@@ -30,7 +31,7 @@ export default function SingleDayView({
         </CardTitle>
         <div className="flex justify-center items-center space-x-2">
           <Badge variant="secondary">
-            {day.exercises.length} ejercicios
+            {day.gymExercises.length} ejercicios
           </Badge>
         </div>
       </CardHeader>
@@ -38,7 +39,7 @@ export default function SingleDayView({
       <Separator className="mb-6" />
       
       <CardContent className="space-y-4">
-        {day.exercises.map((exercise, exerciseIndex) => (
+        {day.gymExercises.map((exercise: Exercise, exerciseIndex: number) => (
           <EditableExerciseCard
             key={exerciseIndex}
             exercise={exercise}

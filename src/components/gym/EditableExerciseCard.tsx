@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Edit2, Trash2, Save, X } from "lucide-react";
+import { Edit2, Trash2, Save, X, Loader2 } from "lucide-react";
+import ExerciseImageViewer from '@/components/ExerciseImageViewer';
+import { useExerciseImages } from '@/hooks/useExerciseImages';
 
 interface EditableExerciseCardProps {
   exercise: Exercise;
@@ -19,6 +21,13 @@ interface EditableExerciseCardProps {
 export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: EditableExerciseCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState(exercise);
+  
+  // Get image status for this specific exercise
+  const { getExerciseMatch, hasImages } = useExerciseImages([exercise.name]);
+  const exerciseMatch = getExerciseMatch(exercise.name);
+  
+  const hasImageData = hasImages(exercise.name);
+  const isLoadingImages = exerciseMatch?.isLoading || false;
 
   const handleSave = () => {
     onUpdate(editForm);
@@ -101,15 +110,27 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
     <Card className="group hover:shadow-md transition-shadow">
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold text-sm sm:text-base flex-1 leading-tight">
-            {exercise.name}
-          </h3>
+          <div className="flex items-center gap-2 flex-1">
+            <h3 className="font-semibold text-sm sm:text-base leading-tight">
+              {exercise.name}
+            </h3>
+            {/* Image availability indicator */}
+            {isLoadingImages ? (
+              <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+            ) : hasImageData ? (
+              <div className="w-2 h-2 bg-green-500 rounded-full" title="Fotos disponibles" />
+            ) : (
+              <div className="w-2 h-2 bg-gray-300 rounded-full" title="Sin fotos" />
+            )}
+          </div>
           <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+            <ExerciseImageViewer exerciseName={exercise.name} />
             <Button
               onClick={() => setIsEditing(true)}
               variant="ghost"
               size="sm"
               className="h-8 w-8 p-0"
+              title="Editar"
             >
               <Edit2 className="w-4 h-4" />
             </Button>
@@ -118,6 +139,7 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
               variant="ghost"
               size="sm"
               className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+              title="Eliminar"
             >
               <Trash2 className="w-4 h-4" />
             </Button>

@@ -34,7 +34,7 @@ export default function EditableGymRoutineView() {
             Rutina personalizable
           </Badge>
           <Badge variant="secondary" className="text-sm">
-            {routine.days.reduce((total, day) => total + day.exercises.length, 0)} ejercicios totales
+            {routine.days.reduce((total: any, day: { exercises: string | any[]; }) => total + day.exercises.length, 0)} ejercicios totales
           </Badge>
         </div>
         

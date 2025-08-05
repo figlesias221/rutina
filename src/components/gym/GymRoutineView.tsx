@@ -1,6 +1,20 @@
 import { GymRoutine } from '@/types';
 import WorkoutDayCard from './WorkoutDayCard';
 
+// Separate interface for WorkoutDay
+interface WorkoutDay {
+  id: string | number;
+  exercises: Exercise[];
+}
+
+// Separate interface for Exercise
+interface Exercise {
+  id: string | number;
+  name: string;
+  // ...other exercise properties if needed
+}
+
+// Props interface
 interface GymRoutineViewProps {
   routine: GymRoutine;
 }
@@ -13,12 +27,12 @@ export default function GymRoutineView({ routine }: GymRoutineViewProps) {
           💪 Mi Rutina de Gimnasio
         </h1>
         <p className="text-gray-600 text-sm sm:text-base">
-          Rutina de 4 días - {routine.days.reduce((total, day) => total + day.exercises.length, 0)} ejercicios totales
+          Rutina de 4 días - {routine.days.reduce((total: number, day: WorkoutDay) => total + day.exercises.length, 0)} ejercicios totales
         </p>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {routine.days.map((day) => (
+        {routine.days.map((day: any) => (
           <WorkoutDayCard key={day.id} day={day} />
         ))}
       </div>

@@ -1,4 +1,5 @@
 import { Exercise } from '@/types';
+import ExerciseImageViewer from '@/components/ExerciseImageViewer';
 
 interface ExerciseCardProps {
   exercise: Exercise;
@@ -7,7 +8,10 @@ interface ExerciseCardProps {
 export default function ExerciseCard({ exercise }: ExerciseCardProps) {
   return (
     <div className="bg-white rounded-lg p-3 sm:p-4 shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
-      <h3 className="font-semibold text-gray-800 mb-2 text-sm sm:text-base">{exercise.name}</h3>
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="font-semibold text-gray-800 text-sm sm:text-base flex-1">{exercise.name}</h3>
+        <ExerciseImageViewer exerciseName={exercise.name} />
+      </div>
       <div className="text-xs sm:text-sm space-y-1">
         <div className="flex justify-between items-center">
           <span className="text-gray-600 font-medium">Series/Reps:</span>

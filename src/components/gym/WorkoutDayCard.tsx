@@ -1,5 +1,6 @@
-import { WorkoutDay } from '@/types';
+import { Exercise, WorkoutDay } from '@/types';
 import ExerciseCard from './ExerciseCard';
+import { Key } from 'react';
 
 interface WorkoutDayCardProps {
   day: WorkoutDay;
@@ -12,7 +13,7 @@ export default function WorkoutDayCard({ day }: WorkoutDayCardProps) {
         {day.name}
       </h2>
       <div className="space-y-2 sm:space-y-3">
-        {day.exercises.map((exercise, index) => (
+        {day.exercises.map((exercise: Exercise, index: Key | null | undefined) => (
           <ExerciseCard key={index} exercise={exercise} />
         ))}
       </div>

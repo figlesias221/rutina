@@ -1,0 +1,171 @@
+{
+  "weeklyPlan": {
+    "name": "Plan Semanal Rutina + Cardio",
+    "days": [
+      {
+        "id": "monday",
+        "name": "Día 1 – Piernas",
+        "dayOfWeek": "Lunes",
+        "gymExercises": [
+          {
+            "name": "Peso Muerto Asimétrico (KB)",
+            "setsReps": "4x8",
+            "weight": "28kg c/lado",
+            "comments": "Mantener espalda neutra"
+          },
+          {
+            "name": "Prensa de Piernas",
+            "setsReps": "3x12",
+            "weight": "70-75% 1RM",
+            "comments": "RIR 2-3"
+          },
+          {
+            "name": "Extensión de Cuádriceps",
+            "setsReps": "3x15",
+            "weight": "Moderado",
+            "comments": "Control excéntrico"
+          }
+        ],
+        "cardioActivities": []
+      },
+      {
+        "id": "tuesday",
+        "name": "Día 2 – Cardio Zone 2",
+        "dayOfWeek": "Martes",
+        "gymExercises": [],
+        "cardioActivities": [
+          {
+            "type": "zone2-run",
+            "duration": "45 min",
+            "intensity": "Zona 2 (conversacional)",
+            "notes": "Mantener FC entre 140-150 bpm"
+          }
+        ]
+      },
+      {
+        "id": "wednesday",
+        "name": "Día 3 – Torso",
+        "dayOfWeek": "Miércoles",
+        "gymExercises": [
+          {
+            "name": "Press de Banca",
+            "setsReps": "4x6",
+            "weight": "80-85% 1RM",
+            "comments": "RIR 0-1"
+          },
+          {
+            "name": "Remo con Barra",
+            "setsReps": "4x8",
+            "weight": "75-80% 1RM",
+            "comments": "Retracción escapular"
+          },
+          {
+            "name": "Press Militar",
+            "setsReps": "3x10",
+            "weight": "70% 1RM",
+            "comments": "Core estable"
+          },
+          {
+            "name": "Dominadas",
+            "setsReps": "3xMAX",
+            "weight": "Peso corporal",
+            "comments": "Si es necesario, asistidas"
+          },
+          {
+            "name": "remo",
+            "setsReps": "1x8",
+            "weight": "",
+            "comments": ""
+          },
+          {
+            "name": "remo",
+            "setsReps": "1x5",
+            "weight": "",
+            "comments": ""
+          }
+        ],
+        "cardioActivities": []
+      },
+      {
+        "id": "thursday",
+        "name": "Día 4 – Football",
+        "dayOfWeek": "Jueves",
+        "gymExercises": [],
+        "cardioActivities": [
+          {
+            "type": "football",
+            "duration": "90 min",
+            "intensity": "Alta",
+            "notes": "Partido o entrenamiento con equipo"
+          }
+        ]
+      },
+      {
+        "id": "friday",
+        "name": "Día 5 – Piernas + Glúteos",
+        "dayOfWeek": "Viernes",
+        "gymExercises": [
+          {
+            "name": "Hip Thrust",
+            "setsReps": "4x8",
+            "weight": "80% 1RM",
+            "comments": "Activación glúteos"
+          },
+          {
+            "name": "Peso Muerto Rumano",
+            "setsReps": "4x10",
+            "weight": "70-75% 1RM",
+            "comments": "Énfasis en isquiotibiales"
+          },
+          {
+            "name": "Zancadas Búlgaras",
+            "setsReps": "3x12 c/pierna",
+            "weight": "Mancuernas",
+            "comments": "Control y equilibrio"
+          },
+          {
+            "name": "Elevaciones de Pantorrilla",
+            "setsReps": "4x15",
+            "weight": "Máquina",
+            "comments": "ROM completo"
+          }
+        ],
+        "cardioActivities": []
+      },
+      {
+        "id": "saturday",
+        "name": "Día 6 – Tennis + VO2",
+        "dayOfWeek": "Sábado",
+        "gymExercises": [],
+        "cardioActivities": [
+          {
+            "type": "tennis",
+            "duration": "60 min",
+            "intensity": "Moderada-Alta",
+            "notes": "Partido o práctica"
+          },
+          {
+            "type": "vo2-training",
+            "duration": "20 min",
+            "intensity": "Máxima",
+            "notes": "4x4 min al 90-95% FCMax con 3 min descanso"
+          }
+        ]
+      },
+      {
+        "id": "sunday",
+        "name": "Día 7 – Descanso Activo",
+        "dayOfWeek": "Domingo",
+        "gymExercises": [],
+        "cardioActivities": [
+          {
+            "type": "zone2-run",
+            "duration": "30 min",
+            "intensity": "Zona 1-2 (muy suave)",
+            "notes": "Recuperación activa, caminar o trotar muy suave"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -44,7 +44,7 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
       <Card className="border-2 border-primary">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold">Editando ejercicio</h4>
+            <h4 className="text-base font-semibold">Editando ejercicio</h4>
             <Badge variant="outline">Modo edición</Badge>
           </div>
         </CardHeader>
@@ -111,7 +111,7 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-3">
           <div className="flex items-center gap-2 flex-1">
-            <h3 className="font-semibold text-sm sm:text-base leading-tight">
+            <h3 className="font-semibold text-base sm:text-lg leading-tight">
               {exercise.name}
             </h3>
             {/* Image availability indicator */}
@@ -148,22 +148,22 @@ export default function EditableExerciseCard({ exercise, onUpdate, onRemove }: E
         
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground text-sm">Series/Reps:</span>
-            <Badge variant="secondary" className="font-mono">
+            <span className="text-muted-foreground text-base">Series/Reps:</span>
+            <Badge variant="secondary" className="font-mono text-base">
               {exercise.setsReps}
             </Badge>
           </div>
           {exercise.weight && (
             <div className="flex justify-between items-center">
-              <span className="text-muted-foreground text-sm">Carga:</span>
-              <Badge variant="outline" className="font-mono">
+              <span className="text-muted-foreground text-base">Carga:</span>
+              <Badge variant="outline" className="font-mono text-base">
                 {exercise.weight}
               </Badge>
             </div>
           )}
           {exercise.comments && (
             <div className="mt-3 p-3 bg-muted rounded-md">
-              <p className="text-sm text-muted-foreground italic">
+              <p className="text-base text-muted-foreground italic">
                 💡 {exercise.comments}
               </p>
             </div>

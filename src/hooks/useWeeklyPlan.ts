@@ -34,35 +34,17 @@ export function useWeeklyPlan() {
     loadPlan();
   }, []);
 
-  // Save to API whenever plan changes (debounced)
+  // Save to localStorage whenever plan changes
   useEffect(() => {
     if (isLoading) return; // Don't save during initial load
 
-    const savePlan = async () => {
-      try {
-        const response = await fetch('/api/weekly-plan', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(plan),
-        });
-        
-        if (!response.ok) {
-          console.error('Failed to save plan');
-          setError('Error saving plan');
-        } else {
-          setError(null); // Clear any previous errors
-        }
-      } catch (error) {
-        console.error('Error saving weekly plan:', error);
-        setError('Error saving plan');
-      }
-    };
-
-    // Debounce saves by 1 second
-    const timeoutId = setTimeout(savePlan, 1000);
-    return () => clearTimeout(timeoutId);
+    try {
+      localStorage.setItem('rutina-weekly-plan', JSON.stringify(plan));
+      setError(null);
+    } catch (error) {
+      console.error('Error saving weekly plan:', error);
+      setError('Error saving changes to browser storage');
+    }
   }, [plan, isLoading]);
 
   const updateExercise = (dayIndex: number, exerciseIndex: number, updatedExercise: Exercise) => {
@@ -147,6 +129,17 @@ export function useWeeklyPlan() {
     }));
   };
 
+  const updateDayName = (dayIndex: number, newName: string) => {
+    setPlan(prev => ({
+      ...prev,
+      days: prev.days.map((day, dIndex) => 
+        dIndex === dayIndex 
+          ? { ...day, name: newName }
+          : day
+      )
+    }));
+  };
+
   const resetToDefault = () => {
     setPlan(defaultWeeklyPlan);
     // The useEffect will handle saving to API
@@ -163,6 +156,7 @@ export function useWeeklyPlan() {
     updateCardio,
     addCardio,
     removeCardio,
+    updateDayName,
     resetToDefault,
     isLoading,
     error

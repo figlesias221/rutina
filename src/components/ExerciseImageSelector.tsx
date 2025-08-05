@@ -84,7 +84,7 @@ export function ExerciseImageSelector({
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>{exerciseName}</span>
@@ -105,7 +105,7 @@ export function ExerciseImageSelector({
             <div className="mb-6">
               <div className="relative">
                 <img
-                  src={allImages[selectedImageIndex]?.images?.[0] || ''}
+                  src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${allImages[selectedImageIndex]?.images?.[0]}` || '/placeholder-exercise.svg'}
                   alt={`${exerciseName} - imagen ${selectedImageIndex + 1}`}
                   className="w-full h-64 object-cover rounded-lg border"
                   onError={(e) => {
@@ -157,7 +157,7 @@ export function ExerciseImageSelector({
                 <CardContent className="p-2">
                   <div className="relative">
                     <img
-                      src={image.images?.[0] || ''}
+                      src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${image.images?.[0]}` || '/placeholder-exercise.svg'}
                       alt={`${exerciseName} - miniatura ${index + 1}`}
                       className="w-full h-16 object-cover rounded"
                       onError={(e) => {

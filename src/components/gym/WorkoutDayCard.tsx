@@ -9,7 +9,7 @@ interface WorkoutDayCardProps {
 export default function WorkoutDayCard({ day }: WorkoutDayCardProps) {
   return (
     <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
-      <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
         {day.name}
       </h2>
       <div className="space-y-2 sm:space-y-3">
@@ -18,7 +18,7 @@ export default function WorkoutDayCard({ day }: WorkoutDayCardProps) {
         ))}
       </div>
       <div className="mt-4 text-center">
-        <span className="inline-block bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1 rounded-full">
+        <span className="inline-block bg-gray-100 text-gray-600 text-sm font-medium px-3 py-1 rounded-full">
           {day.exercises.length} ejercicios
         </span>
       </div>

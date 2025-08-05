@@ -41,12 +41,12 @@ export default function ExerciseImageViewer({ exerciseName }: ExerciseImageViewe
       onRefresh={handleRefresh}
     >
       <Button 
-        variant="outline" 
+        variant="ghost" 
         size="sm"
-        className={hasImages(exerciseName) ? "text-green-600 border-green-200" : ""}
+        className={`h-7 w-7 p-0 ${hasImages(exerciseName) ? "text-green-600 hover:text-green-700" : "text-muted-foreground"}`}
+        title={hasImages(exerciseName) ? 'Ver imágenes' : 'Buscar imágenes'}
       >
-        <Camera className="w-4 h-4 mr-2" />
-        {hasImages(exerciseName) ? 'Ver imágenes' : 'Buscar imágenes'}
+        <Camera className="w-4 h-4" />
       </Button>
     </ExerciseImageSelector>
   );

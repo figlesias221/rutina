@@ -4,7 +4,7 @@
     "days": [
       {
         "id": "monday",
-        "name": "Día 1 – Piernas",
+        "name": "Día 1 – ee",
         "dayOfWeek": "Lunes",
         "gymExercises": [
           {
@@ -26,7 +26,14 @@
             "comments": "Control excéntrico"
           }
         ],
-        "cardioActivities": []
+        "cardioActivities": [
+          {
+            "type": "football",
+            "duration": "1h",
+            "intensity": "alta",
+            "notes": ""
+          }
+        ]
       },
       {
         "id": "tuesday",
@@ -70,18 +77,6 @@
             "setsReps": "3xMAX",
             "weight": "Peso corporal",
             "comments": "Si es necesario, asistidas"
-          },
-          {
-            "name": "remo",
-            "setsReps": "1x8",
-            "weight": "",
-            "comments": ""
-          },
-          {
-            "name": "remo",
-            "setsReps": "1x5",
-            "weight": "",
-            "comments": ""
           }
         ],
         "cardioActivities": []
@@ -91,14 +86,7 @@
         "name": "Día 4 – Football",
         "dayOfWeek": "Jueves",
         "gymExercises": [],
-        "cardioActivities": [
-          {
-            "type": "football",
-            "duration": "90 min",
-            "intensity": "Alta",
-            "notes": "Partido o entrenamiento con equipo"
-          }
-        ]
+        "cardioActivities": []
       },
       {
         "id": "friday",
@@ -138,12 +126,6 @@
         "dayOfWeek": "Sábado",
         "gymExercises": [],
         "cardioActivities": [
-          {
-            "type": "tennis",
-            "duration": "60 min",
-            "intensity": "Moderada-Alta",
-            "notes": "Partido o práctica"
-          },
           {
             "type": "vo2-training",
             "duration": "20 min",

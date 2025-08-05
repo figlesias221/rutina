@@ -4,22 +4,24 @@ import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Plus } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Plus, Edit2, Save, X } from 'lucide-react'
 import { useWeeklyPlan } from '@/hooks/useWeeklyPlan'
 import { useExerciseImages } from '@/hooks/useExerciseImages'
-import EditableExerciseCard from '@/components/gym/EditableExerciseCard'
+import GymSessionCard from './GymSessionCard'
 import CardioCard from './CardioCard'
 import WeekNavigator from './WeekNavigator'
 import AddExerciseDialog from '@/components/AddExerciseDialog'
 import AddCardioDialog from '@/components/weekly/AddCardioDialog'
-import ExerciseImagesSummary from '@/components/ExerciseImagesSummary'
 import { CardioType, Exercise } from '@/types'
 
 export default function WeeklyPlanView() {
-  const { plan, updateExercise, updateCardio, addExercise, removeExercise, addCardio, removeCardio, isLoading, error } = useWeeklyPlan()
+  const { plan, updateExercise, updateCardio, addExercise, removeExercise, addCardio, removeCardio, updateDayName, isLoading, error } = useWeeklyPlan()
   const [selectedDay, setSelectedDay] = useState(0) // 0 = Monday
   const [showAddExercise, setShowAddExercise] = useState(false)
   const [showAddCardio, setShowAddCardio] = useState(false)
+  const [editingDayName, setEditingDayName] = useState(false)
+  const [tempDayName, setTempDayName] = useState('')
 
   // Get all exercise names from the current plan for preloading images
   const allExerciseNames = plan.days.flatMap(day => 
@@ -30,7 +32,6 @@ export default function WeeklyPlanView() {
   const exerciseImages = useExerciseImages(allExerciseNames);
 
   const currentDay = plan.days[selectedDay]
-  const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
   if (isLoading) {
     return (
@@ -74,13 +75,13 @@ export default function WeeklyPlanView() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">
+          <h1 className="text-5xl font-bold tracking-tight mb-2">
             Mi Rutina Semanal
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-lg text-muted-foreground">
             Tu plan semanal de ejercicios y cardio
           </p>
           {error && (
@@ -103,7 +104,58 @@ export default function WeeklyPlanView() {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
-              <h2 className="text-2xl font-bold">{dayNames[selectedDay]}</h2>
+              {editingDayName ? (
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={tempDayName}
+                    onChange={(e) => setTempDayName(e.target.value)}
+                    className="w-48 h-10 text-xl font-bold"
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        // Save day name
+                        updateDayName(selectedDay, tempDayName);
+                        setEditingDayName(false);
+                      } else if (e.key === 'Escape') {
+                        setEditingDayName(false);
+                      }
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      updateDayName(selectedDay, tempDayName);
+                      setEditingDayName(false);
+                    }}
+                    size="sm"
+                    className="h-8 w-8 p-0"
+                  >
+                    <Save className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    onClick={() => setEditingDayName(false)}
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 group">
+                  <h2 className="text-3xl font-bold">{currentDay.name}</h2>
+                  <Button
+                    onClick={() => {
+                      setTempDayName(currentDay.name);
+                      setEditingDayName(true);
+                    }}
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
               <div className="flex gap-2">
                 {(currentDay.gymExercises?.length > 0) && (
                   <Badge variant="secondary" className="font-medium">
@@ -117,109 +169,46 @@ export default function WeeklyPlanView() {
                 )}
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => setShowAddExercise(true)}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                <Plus className="w-4 h-4" />
-                Ejercicio
-              </Button>
-              <Button 
-                onClick={() => setShowAddCardio(true)}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                <Plus className="w-4 h-4" />
-                Cardio
-              </Button>
-            </div>
+            {/* Buttons removed - now inside cards */}
           </div>
 
-          {/* Exercise Images Summary */}
-          {currentDay.gymExercises?.length > 0 && (
-            <div className="mb-6">
-              <ExerciseImagesSummary 
-                exerciseNames={currentDay.gymExercises.map(ex => ex.name)}
-                onRefreshAll={() => {
-                  // Refresh all exercise images for this day
-                  currentDay.gymExercises.forEach(ex => {
-                    exerciseImages.refreshExercise(ex.name);
-                  });
-                }}
-              />
-            </div>
-          )}
+          {/* Images now shown inside gym card */}
 
           {/* Content */}
-          {(!currentDay.gymExercises?.length && !(currentDay.cardioActivities?.length ?? 0)) ? (
-            <Card className="p-12 text-center">
-              <CardContent>
-                <div className="text-6xl mb-4">😴</div>
-                <h3 className="text-xl font-semibold mb-2">Día de descanso</h3>
-                <p className="text-muted-foreground mb-4">
-                  No hay actividades programadas para hoy
-                </p>
-                <div className="flex gap-2 justify-center">
-                  <Button 
-                    onClick={() => setShowAddExercise(true)}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Agregar ejercicio
-                  </Button>
-                  <Button 
-                    onClick={() => setShowAddCardio(true)}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Agregar cardio
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid gap-4">
-              {/* Gym Exercises */}
-              {currentDay.gymExercises?.map((exercise, index) => {
-                const exerciseMatch = exerciseImages.getExerciseMatch(exercise.name);
-                const hasImages = exerciseImages.hasImages(exercise.name);
-                
-                return (
-                  <div key={`gym-${index}`} className="relative">
-                    <EditableExerciseCard
-                      exercise={exercise}
-                      onUpdate={(updatedExercise) => updateExercise(selectedDay, index, updatedExercise)}
-                      onRemove={() => removeExercise(selectedDay, index)}
-                    />
-                    {/* Visual indicator for image availability */}
-                    {hasImages && (
-                      <div className="absolute top-2 right-2 w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm" 
-                           title="Fotos disponibles" />
-                    )}
-                  </div>
-                );
-              })}
+          <div className="grid gap-4">
+            {/* Gym Session - Always show */}
+            <GymSessionCard
+              exercises={currentDay.gymExercises || []}
+              onUpdateExercise={(index, exercise) => updateExercise(selectedDay, index, exercise)}
+              onRemoveExercise={(index) => removeExercise(selectedDay, index)}
+              onAddExercise={(exercise) => addExercise(selectedDay, exercise)}
+            />
 
-              {/* Cardio Activities */}
-              {(currentDay.cardioActivities ?? []).map((cardio, index) => (
-                <CardioCard
-                  key={`cardio-${index}`}
-                  cardio={cardio}
-                  onUpdate={(updatedCardio) => {
-                    if (updatedCardio === undefined) {
-                      removeCardio(selectedDay, index);
-                    } else {
-                      updateCardio(selectedDay, index, updatedCardio);
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          )}
+            {/* Cardio Activities */}
+            {(currentDay.cardioActivities ?? []).map((cardio, index) => (
+              <CardioCard
+                key={`cardio-${index}`}
+                cardio={cardio}
+                onUpdate={(updatedCardio) => {
+                  if (updatedCardio === undefined) {
+                    removeCardio(selectedDay, index);
+                  } else {
+                    updateCardio(selectedDay, index, updatedCardio);
+                  }
+                }}
+              />
+            ))}
+            
+            {/* Add Cardio Card - Always show at the end */}
+            <CardioCard
+              cardio={undefined}
+              onUpdate={(newCardio) => {
+                if (newCardio) {
+                  addCardio(selectedDay, newCardio);
+                }
+              }}
+            />
+          </div>
         </div>
 
         {/* Dialogs */}

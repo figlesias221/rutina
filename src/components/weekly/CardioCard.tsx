@@ -54,7 +54,7 @@ export default function CardioCard({ cardio, onUpdate }: CardioCardProps) {
           onClick={handleAdd}
         >
           <Plus className="w-8 h-8 text-muted-foreground mb-2" />
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-lg font-medium text-muted-foreground">
             Agregar Cardio/Deporte
           </span>
         </CardContent>
@@ -65,13 +65,13 @@ export default function CardioCard({ cardio, onUpdate }: CardioCardProps) {
   if (isEditing) {
     return (
       <Card className="border-2 border-primary">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center">
+        <CardHeader className="pb-2 pt-3">
+          <CardTitle className="text-base flex items-center">
             <span className="mr-2">🏃‍♂️</span>
             {cardio ? 'Editar Cardio' : 'Nuevo Cardio'}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 pb-3">
           <div className="space-y-2">
             <Label htmlFor="cardio-type">Tipo de Actividad</Label>
             <Select value={editForm.type} onValueChange={(value: CardioType) => setEditForm({ ...editForm, type: value })}>
@@ -91,45 +91,48 @@ export default function CardioCard({ cardio, onUpdate }: CardioCardProps) {
             </Select>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="cardio-duration">Duración</Label>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <Label htmlFor="cardio-duration" className="text-xs">Duración</Label>
               <Input
                 id="cardio-duration"
                 value={editForm.duration || ''}
                 onChange={(e) => setEditForm({ ...editForm, duration: e.target.value })}
                 placeholder="30 min, 5km..."
+                className="h-8 text-sm"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="cardio-intensity">Intensidad</Label>
+            <div className="space-y-1">
+              <Label htmlFor="cardio-intensity" className="text-xs">Intensidad</Label>
               <Input
                 id="cardio-intensity"
                 value={editForm.intensity || ''}
                 onChange={(e) => setEditForm({ ...editForm, intensity: e.target.value })}
                 placeholder="Zona 2, Alta..."
+                className="h-8 text-sm"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="cardio-notes">Notas</Label>
+          <div className="space-y-1">
+            <Label htmlFor="cardio-notes" className="text-xs">Notas</Label>
             <Textarea
               id="cardio-notes"
               value={editForm.notes || ''}
               onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
               placeholder="Comentarios sobre la actividad"
               rows={2}
+              className="text-sm"
             />
           </div>
 
-          <div className="flex gap-2 pt-2">
-            <Button onClick={handleSave} className="flex-1">
-              <Save className="w-4 h-4 mr-2" />
+          <div className="flex gap-2">
+            <Button onClick={handleSave} className="flex-1 h-8" size="sm">
+              <Save className="w-3 h-3 mr-1" />
               Guardar
             </Button>
-            <Button onClick={handleCancel} variant="outline" className="flex-1">
-              <X className="w-4 h-4 mr-2" />
+            <Button onClick={handleCancel} variant="outline" className="flex-1 h-8" size="sm">
+              <X className="w-3 h-3 mr-1" />
               Cancelar
             </Button>
           </div>
@@ -140,15 +143,15 @@ export default function CardioCard({ cardio, onUpdate }: CardioCardProps) {
 
   return (
     <Card className="group hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex justify-between items-start mb-3">
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl">{CardioTypeEmojis[cardio!.type]}</span>
-            <h3 className="font-semibold text-sm sm:text-base">
+      <CardHeader className="pb-3 pt-4">
+        <div className="flex justify-between items-start">
+          <div className="flex items-center space-x-3">
+            <span className="text-4xl">{CardioTypeEmojis[cardio!.type]}</span>
+            <CardTitle className="text-2xl sm:text-3xl font-bold">
               {CardioTypeLabels[cardio!.type]}
-            </h3>
+            </CardTitle>
           </div>
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-1">
             <Button
               onClick={() => setIsEditing(true)}
               variant="ghost"
@@ -167,30 +170,25 @@ export default function CardioCard({ cardio, onUpdate }: CardioCardProps) {
             </Button>
           </div>
         </div>
-
-        <div className="space-y-2">
-          {cardio!.duration && (
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground text-sm">Duración:</span>
-              <Badge variant="outline" className="font-mono">
-                {cardio!.duration}
+      </CardHeader>
+      <CardContent className="pt-0 pb-4">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-wrap gap-2">
+            {cardio!.duration && (
+              <Badge variant="outline" className="text-base py-1 px-3">
+                ⏱️ {cardio!.duration}
               </Badge>
-            </div>
-          )}
-          {cardio!.intensity && (
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground text-sm">Intensidad:</span>
-              <Badge variant="secondary">
-                {cardio!.intensity}
+            )}
+            {cardio!.intensity && (
+              <Badge variant="secondary" className="text-base py-1 px-3">
+                💪 {cardio!.intensity}
               </Badge>
-            </div>
-          )}
+            )}
+          </div>
           {cardio!.notes && (
-            <div className="mt-3 p-3 bg-muted rounded-md">
-              <p className="text-sm text-muted-foreground italic">
-                💡 {cardio!.notes}
-              </p>
-            </div>
+            <p className="text-base text-muted-foreground italic">
+              {cardio!.notes}
+            </p>
           )}
         </div>
       </CardContent>

@@ -17,7 +17,7 @@ export interface CardioActivity {
 }
 
 export interface WorkoutDay {
-  exercises: any;
+  exercises: Exercise[];
   id: string;
   name: string;
   dayOfWeek: string; // "Lunes", "Martes", etc.
@@ -51,7 +51,7 @@ export interface CardioSessions {
 
 export const CardioTypeLabels: Record<CardioType, string> = {
   'zone2-run': 'Zone 2 Run',
-  'football': 'Football',
+  'football': 'Fútbol',
   'tennis': 'Tennis',
   'vo2-training': 'VO2 Training',
   'rest': 'Descanso'

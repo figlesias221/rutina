@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Activity, RotateCcw, TrendingUp } from "lucide-react";
 import AddCardioSessionForm from './AddCardioSessionForm';
 import CardioSessionCard from './CardioSessionCard';
+import { SyncStatus } from '@/components/SyncStatus';
 
 export default function CardioSessionsView() {
   const {
@@ -15,7 +16,9 @@ export default function CardioSessionsView() {
     addSession,
     removeSession,
     getRecentSessions,
-    resetToDefault
+    resetToDefault,
+    syncStatus,
+    error
   } = useCardioSessions();
 
   const recentSessions = getRecentSessions();
@@ -92,6 +95,8 @@ export default function CardioSessionsView() {
           )}
         </CardContent>
       </Card>
+      
+      <SyncStatus status={syncStatus} error={error} />
     </div>
   );
 }

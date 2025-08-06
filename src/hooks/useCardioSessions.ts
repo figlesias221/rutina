@@ -1,28 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { CardioSessions, CardioSession } from '@/types';
 import { sampleCardioSessions } from '@/data/cardioSessions';
+import { useSupabase } from './useSupabase';
 
 export function useCardioSessions() {
-  const [sessions, setSessions] = useState<CardioSessions>(sampleCardioSessions);
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem('cardio-sessions');
-    if (saved) {
-      try {
-        setSessions(JSON.parse(saved));
-      } catch (error) {
-        console.error('Error loading saved cardio sessions:', error);
-      }
-    }
-  }, []);
-
-  // Save to localStorage whenever sessions change
-  useEffect(() => {
-    localStorage.setItem('cardio-sessions', JSON.stringify(sessions));
-  }, [sessions]);
+  // Use Supabase for persistence
+  const {
+    data: sessions,
+    setData: setSessions,
+    syncStatus,
+    error,
+    isInitialized,
+    deleteData
+  } = useSupabase<CardioSessions>({
+    dataType: 'cardio_sessions',
+    defaultData: sampleCardioSessions,
+    localStorageKey: 'cardio-sessions',
+    autoSave: true,
+    debounceMs: 500
+  });
 
   const addSession = (newSession: Omit<CardioSession, 'id'>) => {
     const session: CardioSession = {
@@ -62,8 +59,7 @@ export function useCardioSessions() {
   };
 
   const resetToDefault = () => {
-    setSessions(sampleCardioSessions);
-    localStorage.removeItem('cardio-sessions');
+    deleteData();
   };
 
   return {
@@ -73,6 +69,9 @@ export function useCardioSessions() {
     removeSession,
     getSessionsByType,
     getRecentSessions,
-    resetToDefault
+    resetToDefault,
+    syncStatus,
+    error,
+    isInitialized
   };
 }

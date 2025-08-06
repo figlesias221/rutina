@@ -1,30 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Exercise, GymRoutine } from '@/types';
 import { userGymRoutine } from '@/data/gymRoutine';
+import { useSupabase } from './useSupabase';
 
     
 export function useEditableRoutine() {
-  const [routine, setRoutine] = useState<GymRoutine>(userGymRoutine);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem('gym-routine');
-    if (saved) {
-      try {
-        setRoutine(JSON.parse(saved));
-      } catch (error) {
-        console.error('Error loading saved routine:', error);
-      }
-    }
-  }, []);
-
-  // Save to localStorage whenever routine changes
-  useEffect(() => {
-    localStorage.setItem('gym-routine', JSON.stringify(routine));
-  }, [routine]);
+  
+  // Use Supabase for persistence
+  const {
+    data: routine,
+    setData: setRoutine,
+    syncStatus,
+    error,
+    isInitialized,
+    deleteData
+  } = useSupabase<GymRoutine>({
+    dataType: 'gym_routine',
+    defaultData: userGymRoutine,
+    localStorageKey: 'gym-routine',
+    autoSave: true,
+    debounceMs: 500
+  });
 
   const updateExercise = (dayIndex: number, exerciseIndex: number, updatedExercise: Exercise) => {
     setRoutine((prev: GymRoutine) => ({
@@ -68,8 +67,7 @@ export function useEditableRoutine() {
   };
 
   const resetToDefault = () => {
-    setRoutine(userGymRoutine);
-    localStorage.removeItem('gym-routine');
+    deleteData();
   };
 
   return {
@@ -80,6 +78,9 @@ export function useEditableRoutine() {
     updateExercise,
     addExercise,
     removeExercise,
-    resetToDefault
+    resetToDefault,
+    syncStatus,
+    error,
+    isInitialized
   };
 }

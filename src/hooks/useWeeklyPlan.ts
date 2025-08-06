@@ -1,51 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { WeeklyPlan, WorkoutDay, Exercise, CardioActivity } from '@/types';
 import { weeklyPlan as defaultWeeklyPlan } from '@/data/weeklyPlan';
+import { useSupabase } from './useSupabase';
 
 export function useWeeklyPlan() {
-  const [plan, setPlan] = useState<WeeklyPlan>(defaultWeeklyPlan);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Load from API on mount
-  useEffect(() => {
-    const loadPlan = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/api/weekly-plan');
-        if (response.ok) {
-          const savedPlan = await response.json();
-          setPlan(savedPlan);
-        } else {
-          console.log('No saved plan found, using default');
-        }
-      } catch (error) {
-        console.error('Error loading weekly plan:', error);
-        setError('Error loading plan');
-        // Keep using default plan on error
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPlan();
-  }, []);
-
-  // Save to localStorage whenever plan changes
-  useEffect(() => {
-    if (isLoading) return; // Don't save during initial load
-
-    try {
-      localStorage.setItem('rutina-weekly-plan', JSON.stringify(plan));
-      setError(null);
-    } catch (error) {
-      console.error('Error saving weekly plan:', error);
-      setError('Error saving changes to browser storage');
-    }
-  }, [plan, isLoading]);
+  
+  // Use Supabase for persistence
+  const {
+    data: plan,
+    setData: setPlan,
+    syncStatus,
+    error,
+    isInitialized: isLoading,
+    deleteData
+  } = useSupabase<WeeklyPlan>({
+    dataType: 'weekly_plan',
+    defaultData: defaultWeeklyPlan,
+    localStorageKey: 'rutina-weekly-plan',
+    autoSave: true,
+    debounceMs: 500
+  });
 
   const updateExercise = (dayIndex: number, exerciseIndex: number, updatedExercise: Exercise) => {
     setPlan(prev => ({
@@ -141,8 +118,7 @@ export function useWeeklyPlan() {
   };
 
   const resetToDefault = () => {
-    setPlan(defaultWeeklyPlan);
-    // The useEffect will handle saving to API
+    deleteData();
   };
 
   return {
@@ -158,7 +134,8 @@ export function useWeeklyPlan() {
     removeCardio,
     updateDayName,
     resetToDefault,
-    isLoading,
-    error
+    isLoading: !isLoading, // Invert because useSupabase returns isInitialized
+    error,
+    syncStatus
   };
 }

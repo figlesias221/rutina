@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { RotateCcw, Dumbbell, Edit3 } from "lucide-react";
 import DayNavigator from './DayNavigator';
 import SingleDayView from './SingleDayView';
+import { SyncStatus } from '@/components/SyncStatus';
 
 export default function EditableGymRoutineView() {
   const {
@@ -16,7 +17,9 @@ export default function EditableGymRoutineView() {
     updateExercise,
     addExercise,
     removeExercise,
-    resetToDefault
+    resetToDefault,
+    syncStatus,
+    error
   } = useEditableRoutine();
 
   return (
@@ -69,6 +72,8 @@ export default function EditableGymRoutineView() {
           <span>Haz hover sobre ejercicios para editarlos</span>
         </div>
       </div>
+      
+      <SyncStatus status={syncStatus} error={error} />
     </div>
   );
 }

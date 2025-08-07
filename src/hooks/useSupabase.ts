@@ -41,6 +41,7 @@ export function useSupabase<T>({
         try {
           const parsed = JSON.parse(localData);
           setData(parsed);
+          console.log(`Loaded ${dataType} from localStorage`);
         } catch (e) {
           console.error('Error parsing local data:', e);
         }
@@ -48,6 +49,7 @@ export function useSupabase<T>({
 
       // Then try to load from Supabase if configured
       if (isSupabaseConfigured() && supabase) {
+        console.log(`Fetching ${dataType} from Supabase for user ${userId}`);
         const { data: remoteData, error: fetchError } = await supabase
           .from('user_data')
           .select('*')
@@ -56,22 +58,27 @@ export function useSupabase<T>({
           .single();
 
         if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 = no rows found
+          console.error(`Error fetching ${dataType}:`, fetchError);
           throw fetchError;
         }
 
         if (remoteData) {
+          console.log(`Successfully loaded ${dataType} from Supabase`, remoteData);
           setData(remoteData.data);
           // Update localStorage with remote data
           localStorage.setItem(localStorageKey, JSON.stringify(remoteData.data));
+        } else {
+          console.log(`No existing ${dataType} data found in Supabase for user ${userId}`);
         }
         
         setSyncStatus('idle');
       } else {
         // No Supabase configured, use localStorage only
+        console.warn('Supabase not configured, using localStorage only');
         setSyncStatus('offline');
       }
     } catch (err) {
-      console.error('Error loading data:', err);
+      console.error(`Error loading ${dataType} data:`, err);
       setError('Failed to load data from server');
       setSyncStatus('error');
     } finally {
@@ -100,15 +107,36 @@ export function useSupabase<T>({
         updated_at: new Date().toISOString()
       };
 
-      const { error: upsertError } = await supabase
+      // First, check if record exists
+      const { data: existingData, error: selectError } = await supabase
         .from('user_data')
-        .upsert(userData, {
-          onConflict: 'user_id,data_type'
-        });
+        .select('id')
+        .eq('user_id', userId)
+        .eq('data_type', dataType)
+        .single();
 
-      if (upsertError) throw upsertError;
+      let result;
+      if (existingData) {
+        // Update existing record
+        result = await supabase
+          .from('user_data')
+          .update({
+            data: dataToSave,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', userId)
+          .eq('data_type', dataType);
+      } else {
+        // Insert new record
+        result = await supabase
+          .from('user_data')
+          .insert(userData);
+      }
+
+      if (result.error) throw result.error;
 
       setSyncStatus('saved');
+      console.log(`Data saved successfully for ${dataType}`);
       
       // Reset to idle after a short delay
       setTimeout(() => setSyncStatus('idle'), 2000);

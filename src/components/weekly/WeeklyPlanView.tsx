@@ -14,6 +14,7 @@ import WeekNavigator from './WeekNavigator'
 import AddExerciseDialog from '@/components/AddExerciseDialog'
 import AddCardioDialog from '@/components/weekly/AddCardioDialog'
 import { CardioType, Exercise } from '@/types'
+import { MotivationalQuote } from '@/components/MotivationalQuote'
 
 export default function WeeklyPlanView() {
   const { plan, updateExercise, updateCardio, addExercise, removeExercise, addCardio, removeCardio, updateDayName, isLoading, error } = useWeeklyPlan()
@@ -92,6 +93,13 @@ export default function WeeklyPlanView() {
             </div>
           )}
         </div>
+
+        {/* Motivational Quote */}
+        <MotivationalQuote 
+          mode="daily"
+          showRefresh={true}
+          className="mb-6"
+        />
 
         {/* Week Navigator */}
         <WeekNavigator
